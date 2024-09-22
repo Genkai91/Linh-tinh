@@ -5,65 +5,36 @@ from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.by import By
 from os import system, get_terminal_size
 
+# Khởi tạo colorama
 init()
 
-# Không cần dùng system("mode 800") trong môi trường Linux
-system("title TikTok Bot -By Setiawan007")
+def color(text, color_name):
+    if color_name.lower() == "green":
+        return f"{Fore.WHITE}[{Fore.LIGHTGREEN_EX}{text}{Fore.WHITE}]{Fore.LIGHTGREEN_EX}"
+    elif color_name.lower() == "red":
+        return f"{Fore.WHITE}[{Fore.LIGHTRED_EX}{text}{Fore.WHITE}]{Fore.LIGHTRED_EX}"
 
-def color(str, color):
-    if color.lower() == "green":
-        result = f"{Fore.WHITE}[{Fore.LIGHTGREEN_EX}{str}{Fore.WHITE}]{Fore.LIGHTGREEN_EX}"
-
-    elif color.lower() == "red":
-        result = f"{Fore.WHITE}[{Fore.LIGHTRED_EX}{str}{Fore.WHITE}]{Fore.LIGHTRED_EX}"
-
-    return result
-
-def align(str):
-    lines = str.splitlines()
-    greatest = []
-    for i in lines:  
-        greatest.append(len(i))
-
-    for i in lines:
-        length = round(int(greatest[-1])/2)
-        print(f"{' '*round(get_terminal_size().columns/2-length)}{i}")
+def align(text):
+    lines = text.splitlines()
+    greatest_length = max(len(line) for line in lines)
+    for line in lines:
+        padding = (get_terminal_size().columns - greatest_length) // 2
+        print(f"{' ' * padding}{line}")
 
 class printing():
-
-    def __init__(self, a, b, c, d):
-        self.a = a
-        self.b = b
-        self.c = c
-        self.d = d
-
+    @staticmethod
     def text():
-        text = f"""{Fore.LIGHTMAGENTA_EX}
-\t\t\t\t\t▄▄▄▄▄▄▪  ▄ •▄ ▄▄▄▄▄      ▄ •▄     ▄▄▄▄·       ▄▄▄▄▄
-\t\t\t\t\t  ██  ██ █▌▄▌▪•██  ▪     █▌▄▌▪    ▐█ ▀█▪▪     •██  
-\t\t\t\t\t  ▐█.▪▐█·▐▀▀▄· ▐█.▪ ▄█▀▄ ▐▀▀▄·    ▐█▀▀█▄ ▄█▀▄  ▐█.▪
-\t\t\t\t\t  ▐█▌·▐█▌▐█.█▌ ▐█▌·▐█▌.▐▌▐█.█▌    ██▄▪▐█▐█▌.▐▌ ▐█▌·
-\t\t\t\t\t  ▀▀▀ ▀▀▀·▀  ▀ ▀▀▀  ▀█▄▀▪·▀  ▀    ·▀▀▀▀  ▀█▄▀▪ ▀▀▀  By: @Setiawan007
+        banner = f"""{Fore.LIGHTMAGENTA_EX}
+▄▄▄▄▄▄▪  ▄ •▄ ▄▄▄▄▄      ▄ •▄     ▄▄▄▄·       ▄▄▄▄▄
+  ██  ██ █▌▄▌▪•██  ▪     █▌▄▌▪    ▐█ ▀█▪▪     •██  
+  ▐█.▪▐█·▐▀▀▄· ▐█.▪ ▄█▀▄ ▐▀▀▄·    ▐█▀▀█▄ ▄█▀▄  ▐█.▪
+  ▐█▌·▐█▌▐█.█▌ ▐█▌·▐█▌.▐▌▐█.█▌    ██▄▪▐█▐█▌.▐▌ ▐█▌·
+  ▀▀▀ ▀▀▀·▀  ▀ ▀▀▀  ▀█▄▀▪·▀  ▀    ·▀▀▀▀  ▀█▄▀▪ ▀▀▀  
+By: @Setiawan007
 """
-        text = text.replace('▪', f'{Fore.GREEN}▪{Fore.LIGHTMAGENTA_EX}')
-        text = text.replace('•', f'{Fore.GREEN}•{Fore.LIGHTMAGENTA_EX}')
-        text = text.replace('·', f'{Fore.GREEN}·{Fore.LIGHTMAGENTA_EX}')
-        text = text.replace('.', f'{Fore.GREEN}.{Fore.LIGHTMAGENTA_EX}')
-        align(text)
+        align(banner)
 
-    def info():
-        align(f"""{Fore.WHITE}
-╔═══════════════════════════════════════════════════════════════════════════════════╗
-║                                                                                   ║
-║          {color(">", "green")} About: {Fore.LIGHTMAGENTA_EX}This Tool Uses Zefoy To Bot TikTok Stats.{Fore.WHITE}                     ║
-║          {color(">", "green")} Updates: {Fore.LIGHTMAGENTA_EX}Error Fix & Adjustment --9/15/2022{Fore.WHITE}                          ║
-║          {color(">", "green")} Made By: {Fore.LIGHTMAGENTA_EX}Setiawan007{Fore.WHITE}                                                ║
-║          {color(">", "green")} Github: {Fore.LIGHTMAGENTA_EX}https://github.com/Setiawan007{Fore.WHITE}                             ║
-║          {color(">", "green")} Download Chrome Driver: {Fore.LIGHTMAGENTA_EX}https://chromedriver.chromium.org/downloads{Fore.WHITE}  ║
-║                                                                                   ║
-╚═══════════════════════════════════════════════════════════════════════════════════╝
-""")
-
+    @staticmethod
     def options():
         align(f"""{Fore.WHITE}
 ╔═══════════════════════════════╗
@@ -77,34 +48,34 @@ class printing():
 ╚═══════════════════════════════╝
 """)
 
+    @staticmethod
     def refresh():
-        system("clear")  # Dùng "clear" thay cho "cls" để xóa màn hình trên Linux
+        system("clear")  # Xóa màn hình trên Linux
         printing.text()
-        align(f"\n\n\t\t\t{color('>', 'green')} Made By: {Fore.LIGHTMAGENTA_EX}Dreamer#5114 {color('<', 'green')}")
-        align(f"\t\t\t\t{color('>', 'green')} {Fore.LIGHTGREEN_EX}Github: {Fore.LIGHTMAGENTA_EX}https://github.com/Setiawan007/TikTokBot {color('<', 'green')}")
+        align(f"\n\n{color('>', 'green')} Made By: {Fore.LIGHTMAGENTA_EX}Dreamer#5114 {color('<', 'green')}")
         printing.options()
 
 def start(video, botChoice):
-
-    option = webdriver.FirefoxOptions()  # Sử dụng FirefoxOptions thay cho ChromeOptions
+    option = webdriver.FirefoxOptions()
 
     try:
-        service = Service(executable_path="/usr/bin/geckodriver")  # Chỉ định đường dẫn đúng của geckodriver
-        driver = webdriver.Firefox(service=service, options=option)  # Khởi tạo trình duyệt Firefox
+        # Sử dụng đường dẫn chính xác cho geckodriver
+        service = Service(executable_path="/usr/local/bin/geckodriver")
+        driver = webdriver.Firefox(service=service, options=option)
     except Exception as DriverError:
         print(f"{color('>', 'red')} {Fore.LIGHTRED_EX}Error: {DriverError}")
         input(f"{color('>', 'red')} {Fore.LIGHTRED_EX}Press Enter to Exit")
         exit()
 
     driver.get("https://zefoy.com")
-    
+
     if driver.title == "zefoy.com | 502: Bad gateway":
         print(f"{color('>', 'red')} Zefoy Is Down... Attempting To Fix.\n")
         while driver.title == "zefoy.com | 502: Bad gateway":
             time.sleep(20)
             driver.refresh()
             if driver.title != "zefoy.com | 502: Bad gateway":
-                print(f"\n{color('>', 'red')} Fixed! Zefoy is Back Up. Starting Now.\n")
+                print(f"\n{color('>', 'green')} Fixed! Zefoy is Back Up. Starting Now.\n")
                 break
     else:
         print(f"\n{color('>', 'green')} Zefoy Is Up!\n")
@@ -121,5 +92,25 @@ def start(video, botChoice):
                 print(f"\n{color('>', 'red')} You Didn't Finish The Captcha.")
                 input(f"{color('>>>', 'green')} Type \"y\" Once You Finished The Captcha: {Fore.LIGHTMAGENTA_EX}")
 
-# Đoạn mã tiếp theo giữ nguyên
-# ...
+    # Defining bot options (follow, hearts, views, shares)
+    # Tiếp tục thêm logic tương tự cho bot...
+    # ...
+    
+printing.refresh()
+
+while True:
+    choice = input(f"{color('>>>', 'green')} Choice: {Fore.LIGHTMAGENTA_EX}")
+    if choice == "1":
+        video = input(f"{color('>>>', 'green')} TikTok Video URL: {Fore.LIGHTMAGENTA_EX}")
+        printing.options()
+        option = input(f"\n{color('>>>', 'green')} Which to Bot: {Fore.LIGHTMAGENTA_EX}")
+        start(video, int(option))
+        break
+    elif choice == "2":
+        printing.info()
+    elif choice == "3":
+        printing.options()
+    elif choice == "4":
+        printing.refresh()
+    elif choice == "5":
+        exit()
