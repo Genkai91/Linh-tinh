@@ -23,3 +23,9 @@ room5
 room6
 room7
 room8
+seed
+second
+minute
+length
+quit
+end
